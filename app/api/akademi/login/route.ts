@@ -3,7 +3,10 @@ import { supabase } from '@/lib/supabase'
 
 export async function POST(request: NextRequest) {
   try {
-    const { tc, sifre } = await request.json()
+    const body = await request.json()
+    // Hem 'tc' hem de 'tcno' parametrelerini destekle (uyumluluk için)
+    const tc = body.tc || body.tcno
+    const sifre = body.sifre || body.password
 
     if (!tc || !sifre) {
       return NextResponse.json(
@@ -49,8 +52,10 @@ export async function POST(request: NextRequest) {
       maxAge: 60 * 60 * 24 * 7 // 7 gün
     })
 
-    if (data.klinikgiris) {
-      response.cookies.set('klinik_giris', data.klinikgiris, {
+    // klinikgiris INTEGER olabilir (0 veya 1) veya TEXT olabilir ('0' veya '1')
+    const klinikGirisValue = data.klinikgiris === 1 || data.klinikgiris === '1' || data.klinikgiris === true
+    if (klinikGirisValue) {
+      response.cookies.set('klinik_giris', '1', {
         httpOnly: false,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',

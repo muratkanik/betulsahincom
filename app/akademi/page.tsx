@@ -24,7 +24,7 @@ export default function AkademiPage() {
           'Content-Type': 'application/json',
         },
         credentials: 'include', // Cookie'leri göndermek için
-        body: JSON.stringify({ tcno, password }),
+        body: JSON.stringify({ tc: tcno, sifre: password }),
       })
 
       const data = await response.json()
