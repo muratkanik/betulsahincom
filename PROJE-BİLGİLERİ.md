@@ -9,7 +9,9 @@
 ## 🌐 Deployment URL'leri
 
 ### Production
-**https://website-react-lzd9ogduf-murat-kaniks-projects.vercel.app**
+**https://betulsahincom-git-main-murat-kaniks-projects.vercel.app**
+
+**GitHub Repo:** https://github.com/muratkanik/betulsahincom
 
 ### Vercel Dashboard
 https://vercel.com/murat-kaniks-projects/website-react
