@@ -17,9 +17,9 @@ export default function RootLayout({
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <link rel="shortcut icon" href="/web/content/webdesign/res/favicon.ico" />
-        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:100,300,400,400italic,700' />
-        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Alegreya+Sans:100,300,400,400italic,500,600,700' />
-        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Patua+One:100,300,400,400italic,700' />
+        <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,400italic,700' />
+        <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Alegreya+Sans:100,300,400,400italic,500,600,700' />
+        <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Patua+One:100,300,400,400italic,700' />
         <link rel='stylesheet' href='/web/css/global.css' />
         <link rel='stylesheet' href='/web/content/webdesign/css/structure.css' />
         <link rel='stylesheet' href='/web/content/webdesign/css/webdesign.css' />
