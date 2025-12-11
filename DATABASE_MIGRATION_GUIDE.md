@@ -21,10 +21,10 @@ Bu migration:
 Supabase SQL Editor'de şu script'i çalıştırın:
 
 ```sql
--- scripts/migrate_users_to_supabase.sql dosyasını çalıştırın
+-- scripts/migrate_all_users_to_supabase.sql dosyasını çalıştırın
 ```
 
-Bu script tüm aktif kullanıcıları (aktif = 1) Supabase'e aktarır.
+Bu script **TÜM kullanıcıları** (aktif ve pasif, toplam 29 kullanıcı) Supabase'e aktarır.
 
 ### 3. Videolar Verilerini Aktar
 
