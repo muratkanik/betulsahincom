@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import HeroSlider from '@/components/HeroSlider'
+import HeroSliderEnglish from '@/components/HeroSliderEnglish'
 import Footer from '@/components/Footer'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 
@@ -52,7 +52,7 @@ export default function EnglishHome() {
                   <Link href="/en/contact">Contact</Link>
                 </li>
                 <li>
-                  <Link href="/">Türkçe</Link>
+                  <Link href="/">Turkish</Link>
                 </li>
               </ul>
             </nav>
@@ -80,7 +80,7 @@ export default function EnglishHome() {
             </div>
           </div>
 
-          <HeroSlider />
+          <HeroSliderEnglish />
         </header>
       </div>
       
