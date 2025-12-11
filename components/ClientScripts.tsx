@@ -43,6 +43,14 @@ export default function ClientScripts() {
           await loadScript(src)
         }
 
+        // jQuery'in yüklenmesini bekle
+        let retries = 0
+        const maxRetries = 50
+        while (typeof window !== 'undefined' && !(window as any).jQuery && retries < maxRetries) {
+          await new Promise(resolve => setTimeout(resolve, 100))
+          retries++
+        }
+
         // jQuery yüklendikten sonra Revolution Slider'ı başlat
         if (typeof window !== 'undefined' && (window as any).jQuery) {
           const tpj = (window as any).jQuery
