@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import LanguageSwitcher from './LanguageSwitcher'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -14,9 +13,6 @@ export default function Header() {
           <div className="column one">
             <ul className="contact_details"></ul>
             <ul className="social"></ul>
-            <div style={{ float: 'right', marginTop: '8px' }}>
-              <LanguageSwitcher />
-            </div>
           </div>
         </div>
       </div>

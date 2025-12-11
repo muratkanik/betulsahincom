@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 export default function AboutPage() {
   return (

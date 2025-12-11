@@ -27,8 +27,21 @@ export default function LanguageSwitcher() {
     <div className="language-switcher" ref={dropdownRef}>
       <style jsx>{`
         .language-switcher {
-          position: relative;
+          position: fixed;
+          top: 50%;
+          right: 20px;
+          transform: translateY(-50%);
+          z-index: 9999;
           display: inline-block;
+        }
+        
+        @media (max-width: 768px) {
+          .language-switcher {
+            top: auto;
+            bottom: 80px;
+            right: 15px;
+            transform: none;
+          }
         }
         
         .language-switcher-button {

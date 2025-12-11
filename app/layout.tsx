@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import './globals.css'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 const ClientScripts = dynamic(() => import('@/components/ClientScripts'), { ssr: false })
 
@@ -31,6 +32,7 @@ export default function RootLayout({
       </head>
       <body className="template-slider layout-full-width button-stroke no-content-padding header-overlay header-transparent minimalist-header sticky-header sticky-white subheader-title-left hide-title-area">
         {children}
+        <LanguageSwitcher />
         <ClientScripts />
       </body>
     </html>
