@@ -136,11 +136,21 @@ export default function LanguageSwitcher() {
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Language selector"
       >
-        <img 
-          src={isEnglish ? "/web/content/webdesign/res/ingilizce.png" : "/web/content/webdesign/res/turkce.png"} 
-          alt={isEnglish ? "English" : "Türkçe"} 
-        />
-        <span>{isEnglish ? 'EN' : 'TR'}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <img 
+            src="/web/content/webdesign/res/turkce.png" 
+            alt="Türkçe"
+            style={{ opacity: isEnglish ? 0.5 : 1 }}
+          />
+          <span style={{ opacity: isEnglish ? 0.5 : 1 }}>TR</span>
+          <span style={{ margin: '0 4px', opacity: 0.5 }}>|</span>
+          <img 
+            src="/web/content/webdesign/res/ingilizce.png" 
+            alt="English"
+            style={{ opacity: !isEnglish ? 0.5 : 1 }}
+          />
+          <span style={{ opacity: !isEnglish ? 0.5 : 1 }}>EN</span>
+        </div>
         <span className="arrow">▼</span>
       </button>
       
