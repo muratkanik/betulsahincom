@@ -7,6 +7,7 @@ import ServicesSection from '@/components/ServicesSection'
 import PriceRequestForm from '@/components/PriceRequestForm'
 import NonSurgicalBanner from '@/components/NonSurgicalBanner'
 import TestimonialsSection from '@/components/TestimonialsSection'
+import InstagramFeed from '@/components/InstagramFeed'
 import Footer from '@/components/Footer'
 
 export default function Home() {
@@ -26,6 +27,7 @@ export default function Home() {
               <PriceRequestForm />
               <NonSurgicalBanner />
               <TestimonialsSection />
+              <InstagramFeed />
             </div>
           </div>
         </div>
