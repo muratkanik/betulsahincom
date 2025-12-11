@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import LanguageSwitcher from './LanguageSwitcher'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -13,6 +14,9 @@ export default function Header() {
           <div className="column one">
             <ul className="contact_details"></ul>
             <ul className="social"></ul>
+            <div style={{ float: 'right', marginTop: '8px' }}>
+              <LanguageSwitcher />
+            </div>
           </div>
         </div>
       </div>
@@ -78,15 +82,6 @@ export default function Header() {
               <div className="menu_wrapper"></div>
             </div>
 
-            <div className="top_bar_left">
-              <div className="alignright">
-                <Link href="/en" style={{ color: 'white' }}>
-                  <strong>English</strong>
-                  <br />
-                  <img src="/web/content/webdesign/res/ingilizce.png" alt="English" />
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
       </div>

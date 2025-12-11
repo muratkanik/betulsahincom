@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import HeroSlider from '@/components/HeroSlider'
 import Footer from '@/components/Footer'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 export default function EnglishHome() {
   return (
@@ -16,6 +17,9 @@ export default function EnglishHome() {
               <div className="column one">
                 <ul className="contact_details"></ul>
                 <ul className="social"></ul>
+                <div style={{ float: 'right', marginTop: '8px' }}>
+                  <LanguageSwitcher />
+                </div>
               </div>
             </div>
           </div>
@@ -72,15 +76,6 @@ export default function EnglishHome() {
                   <div className="menu_wrapper"></div>
                 </div>
 
-                <div className="top_bar_left">
-                  <div className="alignright">
-                    <Link href="/" style={{ color: 'white' }}>
-                      <strong>Türkçe</strong>
-                      <br />
-                      <img src="/web/content/webdesign/res/turkce.png" alt="Türkçe" />
-                    </Link>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
