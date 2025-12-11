@@ -51,9 +51,6 @@ export default function Header() {
             <li>
               <Link href="/iletisim">İletişim</Link>
             </li>
-            <li>
-              <Link href="/en">English</Link>
-            </li>
           </ul>
         </nav>
       </div>

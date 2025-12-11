@@ -51,9 +51,6 @@ export default function EnglishHome() {
                 <li>
                   <Link href="/en/contact">Contact</Link>
                 </li>
-                <li>
-                  <Link href="/">Turkish</Link>
-                </li>
               </ul>
             </nav>
           </div>
