@@ -28,27 +28,42 @@ export default function LanguageSwitcher() {
         .language-switcher-link {
           display: flex;
           align-items: center;
-          gap: 6px;
-          padding: 6px 10px;
-          background: rgba(255, 255, 255, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          border-radius: 6px;
-          color: white;
+          justify-content: center;
+          gap: 8px;
+          padding: 10px 16px;
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(10px);
+          border: none;
+          border-radius: 16px;
+          color: #333;
           text-decoration: none;
-          transition: all 0.3s ease;
-          font-size: 13px;
-          font-weight: 500;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          font-size: 14px;
+          font-weight: 600;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+          min-width: 70px;
         }
         
         .language-switcher-link:hover {
-          background: rgba(255, 255, 255, 0.2);
-          border-color: rgba(255, 255, 255, 0.3);
+          background: rgba(255, 255, 255, 1);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .language-switcher-link:active {
+          transform: translateY(0);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
         
         .language-switcher-link img {
-          width: 20px;
-          height: 20px;
+          width: 22px;
+          height: 22px;
           object-fit: contain;
+          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+        }
+        
+        .language-switcher-link span {
+          letter-spacing: 0.5px;
         }
       `}</style>
       
