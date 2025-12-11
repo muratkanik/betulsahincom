@@ -1,0 +1,7 @@
+/* Tailwind CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Orijinal CSS dosyaları Next.js'de doğrudan import edilemez, 
+   layout.tsx'de <link> tag'leri ile yükleniyor */
