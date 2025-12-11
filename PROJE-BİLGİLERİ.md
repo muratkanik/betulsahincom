@@ -9,7 +9,7 @@
 ## 🌐 Deployment URL'leri
 
 ### Production
-**https://betulsahincom-git-main-murat-kaniks-projects.vercel.app**
+**https://website-react-five.vercel.app**
 
 **GitHub Repo:** https://github.com/muratkanik/betulsahincom
 
@@ -40,8 +40,8 @@ Aşağıdaki environment variables Vercel'de ayarlandı:
 
 - **Status:** ✅ Ready (Production)
 - **Duration:** ~1 dakika
-- **URL:** https://website-react-lzd9ogduf-murat-kaniks-projects.vercel.app
-- **Inspect:** https://vercel.com/murat-kaniks-projects/website-react/TV35YRYCwZeMW8JWuYtrLQbTAraq
+- **URL:** https://website-react-five.vercel.app
+- **Production URL:** https://website-react-five.vercel.app
 
 ## 🔧 Yönetim Komutları
 
