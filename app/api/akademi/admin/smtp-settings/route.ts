@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { supabaseQuery, supabaseSelectSingle, supabaseInsert, supabaseUpdate } from '@/lib/supabase-utils'
 
 const adminTCs = ['34322246006', '25006089088']
 
@@ -19,24 +20,26 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const { data, error } = await supabase
-      .from('smtp_settings')
-      .select('id, host, port, secure, user, from_email, updated_at')
-      .eq('id', 1)
-      .single()
+    const { data, error } = await supabaseSelectSingle('smtp_settings', { column: 'id', value: 1 })
 
     if (error) {
       // Tablo yoksa veya kayıt yoksa boş döndür
-      if (error.code === 'PGRST116') {
+      if ((error as any)?.code === 'PGRST116') {
         return NextResponse.json({ settings: null })
       }
       return NextResponse.json(
-        { error: error.message },
+        { error: error.message || 'SMTP ayarları yüklenemedi' },
         { status: 500 }
       )
     }
 
-    return NextResponse.json({ settings: data })
+    // Şifreyi çıkar
+    if (data) {
+      const { password: _, ...settingsWithoutPassword } = data as any
+      return NextResponse.json({ settings: settingsWithoutPassword })
+    }
+
+    return NextResponse.json({ settings: null })
   } catch (error) {
     console.error('SMTP settings GET error:', error)
     return NextResponse.json(
@@ -67,11 +70,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Önce mevcut kaydı kontrol et
-    const { data: existing } = await supabase
-      .from('smtp_settings')
-      .select('id')
-      .eq('id', 1)
-      .single()
+    const { data: existing } = await supabaseSelectSingle('smtp_settings', { column: 'id', value: 1 })
 
     const updateData: any = {
       host,
@@ -83,23 +82,27 @@ export async function PUT(request: NextRequest) {
     }
 
     // Şifre değiştiriliyorsa ekle
-    if (password && password.trim() !== '') {
-      updateData.password = password
+    // Eğer mevcut kayıt varsa ve şifre boş değilse güncelle
+    // Eğer mevcut kayıt yoksa şifre zorunlu (yukarıda kontrol ediliyor)
+    if (password !== undefined && password !== null && password.trim() !== '') {
+      updateData.password = password.trim()
+    } else if (!existing) {
+      // İlk kayıt için şifre zorunlu
+      return NextResponse.json(
+        { error: 'İlk kayıt için şifre gereklidir' },
+        { status: 400 }
+      )
     }
+    // Mevcut kayıt varsa ve şifre boşsa, şifreyi güncelleme (mevcut şifre korunur)
 
     let result
     if (existing) {
       // Güncelle
-      const { data, error } = await supabase
-        .from('smtp_settings')
-        .update(updateData)
-        .eq('id', 1)
-        .select()
-        .single()
+      const { data, error } = await supabaseUpdate('smtp_settings', updateData, { column: 'id', value: 1 })
 
       if (error) {
         return NextResponse.json(
-          { error: error.message },
+          { error: error.message || 'SMTP ayarları güncellenemedi' },
           { status: 500 }
         )
       }
@@ -113,19 +116,15 @@ export async function PUT(request: NextRequest) {
         )
       }
 
-      const { data, error } = await supabase
-        .from('smtp_settings')
-        .insert({
-          id: 1,
-          ...updateData,
-          password
-        })
-        .select()
-        .single()
+      const { data, error } = await supabaseInsert('smtp_settings', {
+        id: 1,
+        ...updateData,
+        password
+      })
 
       if (error) {
         return NextResponse.json(
-          { error: error.message },
+          { error: error.message || 'SMTP ayarları kaydedilemedi' },
           { status: 500 }
         )
       }

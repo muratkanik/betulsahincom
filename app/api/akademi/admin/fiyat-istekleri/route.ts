@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { supabaseQuery, supabaseSelectSingle, supabaseDelete } from '@/lib/supabase-utils'
 
 const adminTCs = ['34322246006', '25006089088']
 
@@ -23,15 +24,11 @@ export async function GET(request: NextRequest) {
     const id = searchParams.get('id')
 
     if (id) {
-      const { data, error } = await supabase
-        .from('fiyat_istekleri')
-        .select('*')
-        .eq('id', id)
-        .single()
+      const { data, error } = await supabaseSelectSingle('fiyat_istekleri', { column: 'id', value: id })
 
       if (error) {
         return NextResponse.json(
-          { error: error.message },
+          { error: error.message || 'Fiyat isteği bulunamadı' },
           { status: 500 }
         )
       }
@@ -40,33 +37,32 @@ export async function GET(request: NextRequest) {
     }
 
     if (countOnly) {
-      const { count, error } = await supabase
-        .from('fiyat_istekleri')
-        .select('*', { count: 'exact', head: true })
+      const { data, error } = await supabaseQuery(
+        () => supabase.from('fiyat_istekleri').select('*', { count: 'exact', head: true })
+      )
 
       if (error) {
         return NextResponse.json(
-          { error: error.message },
+          { error: error.message || 'Sayım hatası' },
           { status: 500 }
         )
       }
 
-      return NextResponse.json({ count })
+      return NextResponse.json({ count: (data as any)?.count || 0 })
     }
 
-    const { data, error } = await supabase
-      .from('fiyat_istekleri')
-      .select('*')
-      .order('created_at', { ascending: false })
+    const { data, error } = await supabaseQuery(
+      () => supabase.from('fiyat_istekleri').select('*').order('created_at', { ascending: false })
+    )
 
     if (error) {
       return NextResponse.json(
-        { error: error.message },
+        { error: error.message || 'Fiyat istekleri yüklenemedi' },
         { status: 500 }
       )
     }
 
-    return NextResponse.json({ fiyatIstekleri: data || [] })
+    return NextResponse.json({ fiyatIstekleri: (data as any[]) || [] })
   } catch (error) {
     console.error('Fiyat İstekleri API error:', error)
     return NextResponse.json(
@@ -95,14 +91,11 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
-    const { error } = await supabase
-      .from('fiyat_istekleri')
-      .delete()
-      .eq('id', id)
+    const { error } = await supabaseDelete('fiyat_istekleri', { column: 'id', value: id })
 
     if (error) {
       return NextResponse.json(
-        { error: error.message },
+        { error: error.message || 'Fiyat isteği silinemedi' },
         { status: 500 }
       )
     }

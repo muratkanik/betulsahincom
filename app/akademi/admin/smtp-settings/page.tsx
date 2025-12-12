@@ -76,10 +76,15 @@ export default function SmtpSettingsPage() {
       const data = await response.json()
 
       if (response.ok) {
-        setSuccess(data.message || 'SMTP ayarları güncellendi')
+        const message = formData.password && formData.password.trim() !== '' 
+          ? 'SMTP ayarları ve şifre başarıyla kaydedildi'
+          : settings 
+            ? 'SMTP ayarları güncellendi (şifre değiştirilmedi)'
+            : 'SMTP ayarları kaydedildi'
+        setSuccess(message)
         setFormData({ ...formData, password: '' }) // Şifreyi temizle
         fetchSettings()
-        setTimeout(() => setSuccess(''), 3000)
+        setTimeout(() => setSuccess(''), 5000)
       } else {
         setError(data.error || 'Bir hata oluştu')
       }
@@ -233,9 +238,13 @@ export default function SmtpSettingsPage() {
                       {showPassword ? '🙈' : '👁️'}
                     </button>
                   </div>
-                  {settings && (
+                  {settings ? (
                     <p style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-                      Mevcut şifre gösterilmez. Değiştirmek istemiyorsanız boş bırakın.
+                      ✓ Şifre kaydedilmiş. Değiştirmek için yeni şifre girin, değiştirmek istemiyorsanız boş bırakın.
+                    </p>
+                  ) : (
+                    <p style={{ fontSize: '12px', color: '#c33', marginTop: '5px' }}>
+                      ⚠ İlk kayıt için şifre zorunludur.
                     </p>
                   )}
                 </div>

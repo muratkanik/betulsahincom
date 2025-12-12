@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { supabaseQuery, supabaseInsert, supabaseUpdate, supabaseDelete, supabaseSelectSingle } from '@/lib/supabase-utils'
 
 // Admin kontrolü
 const adminTCs = ['34322246006', '25006089088']
@@ -26,15 +27,11 @@ export async function GET(request: NextRequest) {
 
     if (id) {
       // Tek kullanıcı getir
-      const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', id)
-        .single()
+      const { data, error } = await supabaseSelectSingle('users', { column: 'id', value: id })
 
       if (error) {
         return NextResponse.json(
-          { error: error.message },
+          { error: error.message || 'Kullanıcı bulunamadı' },
           { status: 500 }
         )
       }
@@ -44,34 +41,33 @@ export async function GET(request: NextRequest) {
 
     if (countOnly) {
       // Sadece sayı
-      const { count, error } = await supabase
-        .from('users')
-        .select('*', { count: 'exact', head: true })
+      const { data, error } = await supabaseQuery(
+        () => supabase.from('users').select('*', { count: 'exact', head: true })
+      )
 
       if (error) {
         return NextResponse.json(
-          { error: error.message },
+          { error: error.message || 'Sayım hatası' },
           { status: 500 }
         )
       }
 
-      return NextResponse.json({ count })
+      return NextResponse.json({ count: (data as any)?.count || 0 })
     }
 
     // Tüm kullanıcıları getir
-    const { data, error } = await supabase
-      .from('users')
-      .select('*')
-      .order('created_at', { ascending: false })
+    const { data, error } = await supabaseQuery(
+      () => supabase.from('users').select('*').order('created_at', { ascending: false })
+    )
 
     if (error) {
       return NextResponse.json(
-        { error: error.message },
+        { error: error.message || 'Kullanıcılar yüklenemedi' },
         { status: 500 }
       )
     }
 
-    return NextResponse.json({ users: data || [] })
+    return NextResponse.json({ users: (data as any[]) || [] })
   } catch (error) {
     console.error('Users API error:', error)
     return NextResponse.json(
@@ -101,26 +97,22 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { data, error } = await supabase
-      .from('users')
-      .insert({
-        tc,
-        adsoyad,
-        mail: mail || '',
-        telefon: telefon || '',
-        sifre,
-        diploma: diploma || '',
-        aktif: aktif !== undefined ? aktif : 1,
-        klinikgiris: klinikgiris !== undefined ? klinikgiris : 0,
-        baslama: baslama || null,
-        bitis: bitis || null
-      })
-      .select()
-      .single()
+    const { data, error } = await supabaseInsert('users', {
+      tc,
+      adsoyad,
+      mail: mail || '',
+      telefon: telefon || '',
+      sifre,
+      diploma: diploma || '',
+      aktif: aktif !== undefined ? aktif : 1,
+      klinikgiris: klinikgiris !== undefined ? klinikgiris : 0,
+      baslama: baslama || null,
+      bitis: bitis || null
+    })
 
     if (error) {
       return NextResponse.json(
-        { error: error.message },
+        { error: error.message || 'Kullanıcı eklenemedi' },
         { status: 500 }
       )
     }
@@ -167,16 +159,11 @@ export async function PUT(request: NextRequest) {
     if (baslama !== undefined) updateData.baslama = baslama
     if (bitis !== undefined) updateData.bitis = bitis
 
-    const { data, error } = await supabase
-      .from('users')
-      .update(updateData)
-      .eq('id', id)
-      .select()
-      .single()
+    const { data, error } = await supabaseUpdate('users', updateData, { column: 'id', value: id })
 
     if (error) {
       return NextResponse.json(
-        { error: error.message },
+        { error: error.message || 'Kullanıcı güncellenemedi' },
         { status: 500 }
       )
     }
@@ -211,14 +198,11 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
-    const { error } = await supabase
-      .from('users')
-      .delete()
-      .eq('id', id)
+    const { error } = await supabaseDelete('users', { column: 'id', value: id })
 
     if (error) {
       return NextResponse.json(
-        { error: error.message },
+        { error: error.message || 'Kullanıcı silinemedi' },
         { status: 500 }
       )
     }

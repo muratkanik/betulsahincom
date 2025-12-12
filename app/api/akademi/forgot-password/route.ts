@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { supabaseQuery, supabaseUpdate } from '@/lib/supabase-utils'
 import nodemailer from 'nodemailer'
 
 // SMTP ayarlarını veritabanından veya environment variable'lardan al
@@ -84,15 +85,17 @@ export async function POST(request: NextRequest) {
     }
 
     // Kullanıcıyı bul
-    const { data: user, error: userError } = await supabase
-      .from('users')
-      .select('tc, adsoyad, mail, aktif')
-      .eq('tc', tc)
-      .single()
+    const { data: user, error: userError } = await supabaseQuery(
+      () => supabase
+        .from('users')
+        .select('tc, adsoyad, mail, aktif')
+        .eq('tc', tc)
+        .single()
+    )
 
     if (userError || !user) {
       return NextResponse.json(
-        { success: false, message: 'Bu TC Kimlik No ile kayıtlı kullanıcı bulunamadı' },
+        { success: false, message: userError?.message || 'Bu TC Kimlik No ile kayıtlı kullanıcı bulunamadı' },
         { status: 404 }
       )
     }
@@ -115,15 +118,12 @@ export async function POST(request: NextRequest) {
     const newPassword = generateRandomPassword()
 
     // Veritabanında şifreyi güncelle
-    const { error: updateError } = await supabase
-      .from('users')
-      .update({ sifre: newPassword })
-      .eq('tc', tc)
+    const { error: updateError } = await supabaseUpdate('users', { sifre: newPassword }, { column: 'tc', value: tc })
 
     if (updateError) {
       console.error('Password update error:', updateError)
       return NextResponse.json(
-        { success: false, message: 'Şifre güncellenirken bir hata oluştu' },
+        { success: false, message: updateError.message || 'Şifre güncellenirken bir hata oluştu' },
         { status: 500 }
       )
     }

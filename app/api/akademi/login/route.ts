@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { supabaseQuery } from '@/lib/supabase-utils'
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,17 +16,19 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { data, error } = await supabase
-      .from('users')
-      .select('*')
-      .eq('tc', tc)
-      .eq('sifre', sifre)
-      .eq('aktif', 1)
-      .single()
+    const { data, error } = await supabaseQuery(
+      () => supabase
+        .from('users')
+        .select('*')
+        .eq('tc', tc)
+        .eq('sifre', sifre)
+        .eq('aktif', 1)
+        .single()
+    )
 
     if (error || !data) {
       return NextResponse.json(
-        { success: false, message: 'TC veya şifre hatalı' },
+        { success: false, message: error?.message || 'TC veya şifre hatalı' },
         { status: 401 }
       )
     }
