@@ -1,11 +1,12 @@
 -- Yönetici kullanıcı ekleme script'i
 -- Bu SQL'i Supabase SQL Editor'de çalıştırın
 
+-- Murat KANIK - Admin kullanıcı
 INSERT INTO users (tc, adsoyad, mail, telefon, sifre, diploma, aktif, klinikgiris, baslama, bitis) 
 VALUES (
   '25006089088', 
-  'Yönetici', 
-  'admin@drbetulsahin.com', 
+  'Murat KANIK', 
+  'mkanik@gmail.com', 
   '', 
   'PinnerNanny2023..', 
   '', 
