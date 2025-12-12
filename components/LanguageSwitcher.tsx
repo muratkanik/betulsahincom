@@ -43,8 +43,8 @@ export default function LanguageSwitcher() {
         }
         
         .language-switcher-link img {
-          width: 0.85em !important;
-          height: 0.85em !important;
+          width: 1em !important;
+          height: 1em !important;
           object-fit: contain !important;
           display: block !important;
           vertical-align: middle !important;
