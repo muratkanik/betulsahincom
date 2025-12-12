@@ -17,12 +17,17 @@ export async function GET() {
     const userId = process.env.INSTAGRAM_USER_ID
 
     if (!accessToken || !userId) {
-      console.warn('Instagram API credentials not configured - INSTAGRAM_ACCESS_TOKEN and INSTAGRAM_USER_ID required')
+      const missing = []
+      if (!accessToken) missing.push('INSTAGRAM_ACCESS_TOKEN')
+      if (!userId) missing.push('INSTAGRAM_USER_ID')
+      console.warn(`Instagram API credentials not configured - Missing: ${missing.join(', ')}`)
       return NextResponse.json({ 
         posts: [],
-        error: 'Instagram API credentials not configured'
+        error: `Instagram API credentials not configured. Missing: ${missing.join(', ')}`
       }, { status: 200 }) // 200 döndür ki frontend hata olarak algılamasın
     }
+    
+    console.log('Instagram API: Fetching posts for userId:', userId)
 
     // Instagram Graph API endpoint
     const url = `https://graph.instagram.com/${userId}/media?fields=id,media_type,media_url,permalink,thumbnail_url,caption,timestamp&access_token=${accessToken}&limit=5`
@@ -38,16 +43,25 @@ export async function GET() {
     }
 
     const data = await response.json()
+    console.log('Instagram Graph API response:', {
+      hasData: !!data.data,
+      dataLength: data.data?.length,
+      hasError: !!data.error,
+      error: data.error,
+      keys: Object.keys(data)
+    })
 
     if (data.error) {
       console.error('Instagram Graph API returned error:', data.error)
       return NextResponse.json({ 
         posts: [],
-        error: data.error.message || 'Instagram API error'
+        error: data.error.message || data.error.type || 'Instagram API error',
+        errorDetails: data.error
       }, { status: 200 })
     }
 
     if (data.data && Array.isArray(data.data)) {
+      console.log(`Instagram API: Processing ${data.data.length} posts`)
       const posts: InstagramPost[] = data.data.map((item: any) => ({
         id: item.id,
         media_type: item.media_type,
@@ -61,8 +75,12 @@ export async function GET() {
       return NextResponse.json({ posts })
     }
 
-    console.warn('Instagram API: No data array in response', data)
-    return NextResponse.json({ posts: [] })
+    console.warn('Instagram API: No data array in response. Full response:', JSON.stringify(data, null, 2))
+    return NextResponse.json({ 
+      posts: [],
+      error: 'No posts data in API response',
+      responseData: data
+    })
   } catch (error) {
     console.error('Instagram API error:', error)
     // Hata durumunda boş array döndür, böylece sayfa çalışmaya devam eder
