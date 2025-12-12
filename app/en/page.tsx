@@ -4,8 +4,11 @@ import Link from 'next/link'
 import { useState } from 'react'
 import HeroSliderEnglish from '@/components/HeroSliderEnglish'
 import Footer from '@/components/Footer'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 export default function EnglishHome() {
+  const [menuOpen, setMenuOpen] = useState(false)
+
   return (
     <div id="Wrapper">
       <div id="Header_wrapper">
@@ -20,7 +23,7 @@ export default function EnglishHome() {
             </div>
           </div>
 
-          <div id="Overlay">
+          <div id="Overlay" className={menuOpen ? 'open' : ''}>
             <nav id="overlay-menu">
               <ul id="menu-main-menu" className="overlay-menu">
                 <li className="current_page_item">
@@ -51,10 +54,28 @@ export default function EnglishHome() {
             </nav>
           </div>
 
-          <a className="overlay-menu-toggle" href="#">
-            <i className="open icon-menu"></i>
-            <i className="close icon-cancel"></i>
-          </a>
+          <div className="header-menu-controls" style={{ position: 'absolute', right: '30px', top: '32px', zIndex: 9911, display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <a 
+              className="overlay-menu-toggle" 
+              href="#"
+              onClick={(e) => {
+                e.preventDefault()
+                setMenuOpen(!menuOpen)
+              }}
+            >
+              <i className="open icon-menu"></i>
+              <i className="close icon-cancel"></i>
+            </a>
+            <LanguageSwitcher />
+          </div>
+          <style jsx global>{`
+            .header-menu-controls .overlay-menu-toggle {
+              position: relative !important;
+              right: auto !important;
+              top: auto !important;
+              margin: 0 !important;
+            }
+          `}</style>
 
           <div id="Top_bar">
             <div className="container">
