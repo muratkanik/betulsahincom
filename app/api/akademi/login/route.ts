@@ -53,6 +53,24 @@ export async function POST(request: NextRequest) {
       sameSite: 'lax',
       maxAge: 60 * 60 * 24 * 7 // 7 gün
     })
+    
+    // TC'yi cookie'ye ekle (admin kontrolü için)
+    response.cookies.set('akademi_tc', data.tc, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7 // 7 gün
+    })
+    
+    // Admin durumunu cookie'ye ekle
+    if (isAdmin) {
+      response.cookies.set('akademi_admin', '1', {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 7 // 7 gün
+      })
+    }
 
     // klinikgiris INTEGER olabilir (0 veya 1) veya TEXT olabilir ('0' veya '1')
     const klinikGirisValue = data.klinikgiris === 1 || data.klinikgiris === '1' || data.klinikgiris === true

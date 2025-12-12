@@ -35,8 +35,12 @@ export default function AkademiPage() {
       const data = await response.json()
 
       if (response.ok && data.success) {
-        // Başarılı giriş - videolar sayfasına yönlendir
-        router.push('/videolar')
+        // Admin ise admin paneline, değilse videolar sayfasına yönlendir
+        if (data.user?.isAdmin) {
+          router.push('/akademi/admin')
+        } else {
+          router.push('/videolar')
+        }
       } else {
         setError(data.message || 'Giriş başarısız. Lütfen bilgilerinizi kontrol edin.')
       }
