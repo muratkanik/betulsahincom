@@ -17,8 +17,11 @@ export async function GET() {
     const userId = process.env.INSTAGRAM_USER_ID
 
     if (!accessToken || !userId) {
-      console.warn('Instagram API credentials not configured')
-      return NextResponse.json({ posts: [] })
+      console.warn('Instagram API credentials not configured - INSTAGRAM_ACCESS_TOKEN and INSTAGRAM_USER_ID required')
+      return NextResponse.json({ 
+        posts: [],
+        error: 'Instagram API credentials not configured'
+      }, { status: 200 }) // 200 döndür ki frontend hata olarak algılamasın
     }
 
     // Instagram Graph API endpoint
@@ -29,10 +32,20 @@ export async function GET() {
     })
 
     if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      console.error('Instagram Graph API error:', response.status, response.statusText, errorData)
       throw new Error(`Instagram API error: ${response.statusText}`)
     }
 
     const data = await response.json()
+
+    if (data.error) {
+      console.error('Instagram Graph API returned error:', data.error)
+      return NextResponse.json({ 
+        posts: [],
+        error: data.error.message || 'Instagram API error'
+      }, { status: 200 })
+    }
 
     if (data.data && Array.isArray(data.data)) {
       const posts: InstagramPost[] = data.data.map((item: any) => ({
@@ -48,10 +61,14 @@ export async function GET() {
       return NextResponse.json({ posts })
     }
 
+    console.warn('Instagram API: No data array in response', data)
     return NextResponse.json({ posts: [] })
   } catch (error) {
     console.error('Instagram API error:', error)
     // Hata durumunda boş array döndür, böylece sayfa çalışmaya devam eder
-    return NextResponse.json({ posts: [] })
+    return NextResponse.json({ 
+      posts: [],
+      error: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 200 })
   }
 }

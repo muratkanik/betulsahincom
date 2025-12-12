@@ -22,12 +22,18 @@ export default function InstagramFeed() {
     const fetchPosts = async () => {
       try {
         const response = await fetch('/api/instagram')
+        const data = await response.json()
+        
         if (!response.ok) {
+          console.error('Instagram API response error:', response.status, data)
           throw new Error('Instagram feed yüklenemedi')
         }
-        const data = await response.json()
-        if (data.posts && Array.isArray(data.posts)) {
+        
+        if (data.posts && Array.isArray(data.posts) && data.posts.length > 0) {
           setPosts(data.posts.slice(0, 5)) // Son 5 paylaşım
+        } else {
+          console.warn('Instagram feed: No posts returned', data)
+          setError('Instagram paylaşımları bulunamadı')
         }
       } catch (err) {
         console.error('Instagram feed error:', err)
@@ -59,8 +65,15 @@ export default function InstagramFeed() {
     )
   }
 
-  if (error || posts.length === 0) {
-    return null // Hata varsa veya post yoksa gizle
+  if (error) {
+    // Hata durumunda gizle (sessizce başarısız ol)
+    console.warn('Instagram feed error:', error)
+    return null
+  }
+
+  if (posts.length === 0) {
+    // Post yoksa gizle
+    return null
   }
 
   return (
