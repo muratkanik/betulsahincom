@@ -52,11 +52,10 @@ export default function Header() {
         </nav>
       </div>
 
-      <div style={{ position: 'absolute', right: '30px', top: '32px', zIndex: 9911, display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <div className="header-menu-controls" style={{ position: 'absolute', right: '30px', top: '32px', zIndex: 9911, display: 'flex', alignItems: 'center', gap: '10px' }}>
         <a 
           className="overlay-menu-toggle" 
           href="#"
-          style={{ position: 'relative', right: 'auto', top: 'auto' }}
           onClick={(e) => {
             e.preventDefault()
             setMenuOpen(!menuOpen)
@@ -66,6 +65,15 @@ export default function Header() {
         </a>
         <LanguageSwitcher />
       </div>
+      <style jsx global>{`
+        .header-overlay .header-menu-controls .overlay-menu-toggle,
+        .header-overlay .header-menu-controls a.overlay-menu-toggle {
+          position: relative !important;
+          right: auto !important;
+          top: auto !important;
+          margin: 0 !important;
+        }
+      `}</style>
 
       <div id="Top_bar">
         <div className="container">
