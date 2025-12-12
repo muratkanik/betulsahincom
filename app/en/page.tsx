@@ -63,8 +63,7 @@ export default function EnglishHome() {
                 setMenuOpen(!menuOpen)
               }}
             >
-              <i className="open icon-menu"></i>
-              <i className="close icon-cancel"></i>
+              <i className={menuOpen ? "close icon-cancel" : "open icon-menu"}></i>
             </a>
             <LanguageSwitcher />
           </div>
@@ -74,6 +73,18 @@ export default function EnglishHome() {
               right: auto !important;
               top: auto !important;
               margin: 0 !important;
+            }
+            #Overlay.open {
+              display: block !important;
+            }
+            #Overlay .close {
+              display: none;
+            }
+            #Overlay.open .close {
+              display: block;
+            }
+            #Overlay.open .open {
+              display: none;
             }
           `}</style>
 
