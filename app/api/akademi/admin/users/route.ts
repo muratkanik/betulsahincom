@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
     if (countOnly) {
       // Sadece sayı
       const { data, error } = await supabaseQuery(
-        () => supabase.from('users').select('*', { count: 'exact', head: true })
+        async () => await supabase.from('users').select('*', { count: 'exact', head: true })
       )
 
       if (error) {
@@ -57,7 +57,7 @@ export async function GET(request: NextRequest) {
 
     // Tüm kullanıcıları getir
     const { data, error } = await supabaseQuery(
-      () => supabase.from('users').select('*').order('created_at', { ascending: false })
+      async () => await supabase.from('users').select('*').order('created_at', { ascending: false })
     )
 
     if (error) {

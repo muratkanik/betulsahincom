@@ -76,7 +76,7 @@ export async function supabaseInsert<T>(
   timeoutMs: number = DEFAULT_TIMEOUT
 ): Promise<{ data: T | null; error: any }> {
   return supabaseQuery(
-    () => supabase.from(table).insert(Array.isArray(values) ? values : [values]).select().single(),
+    async () => await supabase.from(table).insert(Array.isArray(values) ? values : [values]).select().single(),
     timeoutMs
   )
 }
@@ -89,7 +89,7 @@ export async function supabaseUpdate<T>(
   timeoutMs: number = DEFAULT_TIMEOUT
 ): Promise<{ data: T | null; error: any }> {
   return supabaseQuery(
-    () => supabase.from(table).update(values).eq(filter.column, filter.value).select().single(),
+    async () => await supabase.from(table).update(values).eq(filter.column, filter.value).select().single(),
     timeoutMs
   )
 }
@@ -119,7 +119,7 @@ export async function supabaseSelectSingle<T>(
   timeoutMs: number = DEFAULT_TIMEOUT
 ): Promise<{ data: T | null; error: any }> {
   return supabaseQuery(
-    () => supabase.from(table).select('*').eq(filter.column, filter.value).single(),
+    async () => await supabase.from(table).select('*').eq(filter.column, filter.value).single(),
     timeoutMs
   )
 }
@@ -131,12 +131,12 @@ export async function supabaseDelete(
   timeoutMs: number = DEFAULT_TIMEOUT
 ): Promise<{ error: any }> {
   try {
-    return await withRetry(async () => {
+    return await withRetry<{ error: any }>(async () => {
       const result = await withTimeout(
-        supabase.from(table).delete().eq(filter.column, filter.value),
+        (async () => await supabase.from(table).delete().eq(filter.column, filter.value))(),
         timeoutMs
       )
-      return result
+      return result as { error: any }
     })
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Bilinmeyen hata'

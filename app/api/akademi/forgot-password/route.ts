@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
 
     // Kullanıcıyı bul
     const { data: user, error: userError } = await supabaseQuery(
-      () => supabase
+      async () => await supabase
         .from('users')
         .select('tc, adsoyad, mail, aktif')
         .eq('tc', tc)
@@ -100,14 +100,15 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (user.aktif !== 1) {
+    const userData = user as any
+    if (userData.aktif !== 1) {
       return NextResponse.json(
         { success: false, message: 'Bu kullanıcı hesabı aktif değildir' },
         { status: 403 }
       )
     }
 
-    if (!user.mail || user.mail.trim() === '') {
+    if (!userData.mail || userData.mail.trim() === '') {
       return NextResponse.json(
         { success: false, message: 'Bu kullanıcının kayıtlı e-posta adresi bulunmamaktadır' },
         { status: 400 }
@@ -135,12 +136,12 @@ export async function POST(request: NextRequest) {
       
       const mailOptions = {
         from: smtpConfig.auth.user,
-        to: user.mail,
+        to: userData.mail,
         subject: 'Dr. Betül Şahin Akademi - Şifre Sıfırlama',
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #20146b;">Şifre Sıfırlama</h2>
-            <p>Sayın ${user.adsoyad},</p>
+            <p>Sayın ${userData.adsoyad},</p>
             <p>Akademi hesabınız için yeni şifreniz aşağıda belirtilmiştir:</p>
             <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
               <p style="font-size: 18px; font-weight: bold; color: #20146b; margin: 0;">${newPassword}</p>
@@ -154,7 +155,7 @@ export async function POST(request: NextRequest) {
         text: `
 Şifre Sıfırlama
 
-Sayın ${user.adsoyad},
+Sayın ${userData.adsoyad},
 
 Akademi hesabınız için yeni şifreniz: ${newPassword}
 

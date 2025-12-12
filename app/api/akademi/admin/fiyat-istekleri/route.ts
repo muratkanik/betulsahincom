@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
 
     if (countOnly) {
       const { data, error } = await supabaseQuery(
-        () => supabase.from('fiyat_istekleri').select('*', { count: 'exact', head: true })
+        async () => await supabase.from('fiyat_istekleri').select('*', { count: 'exact', head: true })
       )
 
       if (error) {
@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
     }
 
     const { data, error } = await supabaseQuery(
-      () => supabase.from('fiyat_istekleri').select('*').order('created_at', { ascending: false })
+      async () => await supabase.from('fiyat_istekleri').select('*').order('created_at', { ascending: false })
     )
 
     if (error) {

@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { data, error } = await supabaseQuery(
-      () => supabase
+      async () => await supabase
         .from('users')
         .select('*')
         .eq('tc', tc)
@@ -35,22 +35,23 @@ export async function POST(request: NextRequest) {
 
     // Yönetici TC'leri
     const adminTCs = ['34322246006', '25006089088']
-    const isAdmin = adminTCs.includes(data.tc)
+    const userData = data as any
+    const isAdmin = adminTCs.includes(userData.tc)
 
     const response = NextResponse.json({
       success: true,
       user: {
-        adsoyad: data.adsoyad,
-        tc: data.tc,
+        adsoyad: userData.adsoyad,
+        tc: userData.tc,
         isAdmin: isAdmin,
-        klinikGiris: data.klinikgiris,
-        baslama: data.baslama,
-        bitis: data.bitis
+        klinikGiris: userData.klinikgiris,
+        baslama: userData.baslama,
+        bitis: userData.bitis
       }
     })
 
     // Cookie'leri set et
-    response.cookies.set('akademi_session', data.adsoyad, {
+    response.cookies.set('akademi_session', userData.adsoyad, {
       httpOnly: false, // Client-side'dan okunabilir olmalı
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -58,7 +59,7 @@ export async function POST(request: NextRequest) {
     })
     
     // TC'yi cookie'ye ekle (admin kontrolü için)
-    response.cookies.set('akademi_tc', data.tc, {
+    response.cookies.set('akademi_tc', userData.tc, {
       httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -76,7 +77,7 @@ export async function POST(request: NextRequest) {
     }
 
     // klinikgiris INTEGER olabilir (0 veya 1) veya TEXT olabilir ('0' veya '1')
-    const klinikGirisValue = data.klinikgiris === 1 || data.klinikgiris === '1' || data.klinikgiris === true
+    const klinikGirisValue = userData.klinikgiris === 1 || userData.klinikgiris === '1' || userData.klinikgiris === true
     if (klinikGirisValue) {
       response.cookies.set('klinik_giris', '1', {
         httpOnly: false,

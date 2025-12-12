@@ -95,7 +95,7 @@ export async function PUT(request: NextRequest) {
     }
     // Mevcut kayıt varsa ve şifre boşsa, şifreyi güncelleme (mevcut şifre korunur)
 
-    let result
+    let result: any
     if (existing) {
       // Güncelle
       const { data, error } = await supabaseUpdate('smtp_settings', updateData, { column: 'id', value: 1 })

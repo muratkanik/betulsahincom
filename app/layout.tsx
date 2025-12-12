@@ -1,9 +1,7 @@
 import type { Metadata } from 'next'
-import dynamic from 'next/dynamic'
 import './globals.css'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
-
-const ClientScripts = dynamic(() => import('@/components/ClientScripts'), { ssr: false })
+import ClientScripts from '@/components/ClientScripts'
 
 export const metadata: Metadata = {
   title: 'Op.Dr. Betül Şahin - Kulak Burun Boğaz ve Yüz Estetiği',
