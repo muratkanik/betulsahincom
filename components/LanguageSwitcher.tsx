@@ -20,6 +20,7 @@ export default function LanguageSwitcher() {
         
         .header-overlay.sticky-header .language-switcher {
           position: fixed;
+          margin-right: 10px;
         }
         
         @media (max-width: 768px) {
@@ -42,10 +43,11 @@ export default function LanguageSwitcher() {
           color: #333;
           text-decoration: none;
           transition: all 0.3s;
-          font-size: 12px;
-          font-weight: 600;
+          font-size: 30px;
+          font-weight: normal;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
           padding: 0;
+          line-height: 30px;
         }
         
         .language-switcher-link:hover {
@@ -57,8 +59,8 @@ export default function LanguageSwitcher() {
         }
         
         .language-switcher-link img {
-          width: 20px;
-          height: 20px;
+          width: 24px;
+          height: 24px;
           object-fit: contain;
         }
         
