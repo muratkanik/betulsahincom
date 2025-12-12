@@ -200,6 +200,13 @@ export default function UsersAdminPage() {
                   + Yeni Kullanıcı
                 </button>
               </div>
+              <div className="column_attr" style={{ marginBottom: '20px', padding: '15px', background: '#e3f2fd', borderRadius: '4px', borderLeft: '4px solid #20146b' }}>
+                <p style={{ margin: 0, fontSize: '14px', color: '#333' }}>
+                  <strong>💡 Bilgi:</strong> Eski veritabanı yedeklerinden kullanıcıları import etmek için{' '}
+                  <code style={{ background: '#fff', padding: '2px 6px', borderRadius: '3px' }}>scripts/migrate_all_users_to_supabase.sql</code>{' '}
+                  dosyasını Supabase SQL Editor'de çalıştırın. Bu dosya tüm kullanıcıları diploma linkleriyle birlikte içerir.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -240,6 +247,7 @@ export default function UsersAdminPage() {
                       <th style={{ padding: '12px', textAlign: 'left' }}>Ad Soyad</th>
                       <th style={{ padding: '12px', textAlign: 'left' }}>Email</th>
                       <th style={{ padding: '12px', textAlign: 'left' }}>Telefon</th>
+                      <th style={{ padding: '12px', textAlign: 'left' }}>Diploma</th>
                       <th style={{ padding: '12px', textAlign: 'left' }}>Aktif</th>
                       <th style={{ padding: '12px', textAlign: 'left' }}>Klinik Giriş</th>
                       <th style={{ padding: '12px', textAlign: 'left' }}>İşlemler</th>
@@ -253,6 +261,26 @@ export default function UsersAdminPage() {
                         <td style={{ padding: '12px' }}>{user.adsoyad}</td>
                         <td style={{ padding: '12px' }}>{user.mail || '-'}</td>
                         <td style={{ padding: '12px' }}>{user.telefon || '-'}</td>
+                        <td style={{ padding: '12px' }}>
+                          {user.diploma ? (
+                            <a
+                              href={user.diploma}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{
+                                color: '#20146b',
+                                textDecoration: 'underline',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '5px'
+                              }}
+                            >
+                              📄 Diploma
+                            </a>
+                          ) : (
+                            '-'
+                          )}
+                        </td>
                         <td style={{ padding: '12px' }}>{user.aktif ? '✓' : '✗'}</td>
                         <td style={{ padding: '12px' }}>{user.klinikgiris ? '✓' : '✗'}</td>
                         <td style={{ padding: '12px' }}>
