@@ -44,7 +44,7 @@ export default function LanguageSwitcher() {
         .language-switcher-link img {
           width: 1em !important;
           height: 1em !important;
-          object-fit: contain !important;
+          object-fit: cover !important;
           display: block !important;
           vertical-align: middle !important;
           margin: 0 !important;
@@ -58,7 +58,7 @@ export default function LanguageSwitcher() {
           className="language-switcher-link"
           aria-label="Switch to Turkish"
         >
-          <img src="/web/content/webdesign/res/turkce.png" alt="Türkçe" />
+          <img src="/web/content/webdesign/res/turkce-square.png" alt="Türkçe" />
         </Link>
       ) : (
         <Link 
@@ -66,7 +66,7 @@ export default function LanguageSwitcher() {
           className="language-switcher-link"
           aria-label="Switch to English"
         >
-          <img src="/web/content/webdesign/res/ingilizce.png" alt="English" />
+          <img src="/web/content/webdesign/res/ingilizce-square.png" alt="English" />
         </Link>
       )}
     </>
