@@ -46,6 +46,7 @@ export default function AdminLayout({
     { href: '/akademi/admin/users', label: 'Kullanıcılar', icon: '👥' },
     { href: '/akademi/admin/iletisim', label: 'İletişim Formları', icon: '📧' },
     { href: '/akademi/admin/fiyat-istekleri', label: 'Fiyat İstekleri', icon: '💰' },
+    { href: '/akademi/admin/smtp-settings', label: 'SMTP Ayarları', icon: '⚙️' },
   ]
 
   return (

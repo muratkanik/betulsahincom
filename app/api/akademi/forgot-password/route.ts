@@ -2,16 +2,63 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import nodemailer from 'nodemailer'
 
-// Mail gönderici yapılandırması
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'mail.sistemdestekas.com.tr',
-  port: parseInt(process.env.SMTP_PORT || '587'),
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER || 'drbetulsahin@sistemdestekas.com.tr',
-    pass: process.env.SMTP_PASS || 'x5y0-XGz_Y79iJ'
+// SMTP ayarlarını veritabanından veya environment variable'lardan al
+async function getSmtpConfig() {
+  // Önce veritabanından kontrol et
+  try {
+    const { data: settings } = await supabase
+      .from('smtp_settings')
+      .select('*')
+      .eq('id', 1)
+      .single()
+
+    if (settings && settings.host && settings.user && settings.password) {
+      return {
+        host: settings.host,
+        port: parseInt(settings.port || '587'),
+        secure: settings.secure === true || settings.secure === 1,
+        auth: {
+          user: settings.user,
+          pass: settings.password
+        }
+      }
+    }
+  } catch (error) {
+    // Veritabanında ayar yoksa environment variable'lara bak
+    console.log('SMTP settings not found in database, using environment variables')
   }
-})
+
+  // Environment variable'lardan al (zorunlu)
+  const host = process.env.SMTP_HOST
+  const port = process.env.SMTP_PORT
+  const user = process.env.SMTP_USER
+  const pass = process.env.SMTP_PASS
+
+  if (!host || !user || !pass) {
+    throw new Error('SMTP ayarları bulunamadı. Lütfen environment variable\'ları veya veritabanı ayarlarını kontrol edin.')
+  }
+
+  return {
+    host,
+    port: parseInt(port || '587'),
+    secure: process.env.SMTP_SECURE === 'true',
+    auth: {
+      user,
+      pass
+    }
+  }
+}
+
+// Mail gönderici yapılandırması (lazy initialization)
+let transporter: nodemailer.Transporter | null = null
+
+async function getTransporter() {
+  if (!transporter) {
+    const config = await getSmtpConfig()
+    transporter = nodemailer.createTransport(config)
+  }
+  return transporter
+}
 
 // Random şifre oluştur
 function generateRandomPassword(): string {
@@ -83,8 +130,11 @@ export async function POST(request: NextRequest) {
 
     // E-posta gönder
     try {
+      const smtpConfig = await getSmtpConfig()
+      const mailTransporter = await getTransporter()
+      
       const mailOptions = {
-        from: process.env.SMTP_USER || 'drbetulsahin@sistemdestekas.com.tr',
+        from: smtpConfig.auth.user,
         to: user.mail,
         subject: 'Dr. Betül Şahin Akademi - Şifre Sıfırlama',
         html: `
@@ -116,7 +166,7 @@ Dr. Betül Şahin Akademi
         `
       }
 
-      await transporter.sendMail(mailOptions)
+      await mailTransporter.sendMail(mailOptions)
     } catch (mailError) {
       console.error('Mail sending error:', mailError)
       // Şifre güncellendi ama mail gönderilemedi - kullanıcıya bilgi ver
