@@ -8,51 +8,47 @@ export default function LanguageSwitcher() {
   const isEnglish = pathname?.startsWith('/en')
 
   return (
-    <div className="language-switcher">
-      <style jsx>{`
-        .language-switcher {
-          position: relative;
-          display: inline-block;
-        }
-        
+    <>
+      <style jsx global>{`
         .language-switcher-link {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          background: rgba(0, 0, 0, 0.3);
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          background: rgba(0, 0, 0, 0.3) !important;
           backdrop-filter: blur(10px);
-          border: none;
+          border: none !important;
           border-radius: 0 !important;
-          color: #fff;
-          text-decoration: none;
+          color: #fff !important;
+          text-decoration: none !important;
           transition: all 0.3s;
-          font-size: 30px;
-          font-weight: normal;
+          font-size: 30px !important;
+          font-weight: normal !important;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          padding: 7px 2px;
-          line-height: 1em;
-          box-sizing: border-box;
-          vertical-align: middle;
+          padding: 7px 2px !important;
+          line-height: 1em !important;
+          box-sizing: border-box !important;
+          vertical-align: middle !important;
+          margin: 0 !important;
+          width: auto !important;
+          height: auto !important;
         }
         
         .language-switcher-link:hover {
-          background: rgba(0, 0, 0, 0.5);
+          background: rgba(0, 0, 0, 0.5) !important;
         }
         
         .language-switcher-link:active {
-          background: rgba(0, 0, 0, 0.4);
+          background: rgba(0, 0, 0, 0.4) !important;
         }
         
         .language-switcher-link img {
-          width: 1em;
-          height: 1em;
-          object-fit: contain;
-          display: block;
-          vertical-align: middle;
-        }
-        
-        .language-switcher-link span {
-          display: none;
+          width: 1em !important;
+          height: 1em !important;
+          object-fit: contain !important;
+          display: block !important;
+          vertical-align: middle !important;
+          margin: 0 !important;
+          border-radius: 0 !important;
         }
       `}</style>
       
@@ -73,6 +69,6 @@ export default function LanguageSwitcher() {
           <img src="/web/content/webdesign/res/ingilizce.png" alt="English" />
         </Link>
       )}
-    </div>
+    </>
   )
 }
