@@ -56,7 +56,7 @@ export default function Header() {
         <a 
           className="overlay-menu-toggle" 
           href="#"
-          style={{ position: 'relative', right: 'auto', top: 'auto' }}
+          style={{ position: 'relative', right: 'auto', top: 'auto', margin: 0, padding: 0 }}
           onClick={(e) => {
             e.preventDefault()
             setMenuOpen(!menuOpen)

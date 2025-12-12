@@ -16,36 +16,38 @@ export default function LanguageSwitcher() {
         }
         
         .language-switcher-link {
-          display: flex;
+          display: inline-flex;
           align-items: center;
           justify-content: center;
           width: 30px;
           height: 30px;
-          background: rgba(255, 255, 255, 0.5);
+          background: rgba(0, 0, 0, 0.3);
           backdrop-filter: blur(10px);
           border: none;
-          border-radius: 0;
-          color: #333;
+          border-radius: 0 !important;
+          color: #fff;
           text-decoration: none;
           transition: all 0.3s;
           font-size: 30px;
           font-weight: normal;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
           padding: 0;
-          line-height: 1;
+          line-height: 30px;
+          box-sizing: border-box;
+          vertical-align: middle;
         }
         
         .language-switcher-link:hover {
-          background: rgba(255, 255, 255, 0.7);
+          background: rgba(0, 0, 0, 0.5);
         }
         
         .language-switcher-link:active {
-          background: rgba(255, 255, 255, 0.6);
+          background: rgba(0, 0, 0, 0.4);
         }
         
         .language-switcher-link img {
-          width: 22px;
-          height: 22px;
+          width: 24px;
+          height: 24px;
           object-fit: contain;
           display: block;
         }
