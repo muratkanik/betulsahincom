@@ -47,7 +47,7 @@ export default function LanguageSwitcher() {
           font-weight: normal;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
           padding: 0;
-          line-height: 30px;
+          line-height: 1;
         }
         
         .language-switcher-link:hover {
@@ -59,9 +59,10 @@ export default function LanguageSwitcher() {
         }
         
         .language-switcher-link img {
-          width: 24px;
-          height: 24px;
+          width: 22px;
+          height: 22px;
           object-fit: contain;
+          display: block;
         }
         
         .language-switcher-link span {
