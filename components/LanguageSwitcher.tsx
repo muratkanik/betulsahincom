@@ -11,23 +11,8 @@ export default function LanguageSwitcher() {
     <div className="language-switcher">
       <style jsx>{`
         .language-switcher {
-          position: absolute;
-          right: 70px;
-          top: 30px;
-          z-index: 9911;
+          position: relative;
           display: inline-block;
-        }
-        
-        .header-overlay.sticky-header .language-switcher {
-          position: fixed;
-          margin-right: 10px;
-        }
-        
-        @media (max-width: 768px) {
-          .language-switcher {
-            right: 70px;
-            top: 30px;
-          }
         }
         
         .language-switcher-link {

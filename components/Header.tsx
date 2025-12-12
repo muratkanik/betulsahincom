@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import LanguageSwitcher from './LanguageSwitcher'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -51,16 +52,20 @@ export default function Header() {
         </nav>
       </div>
 
-      <a 
-        className="overlay-menu-toggle" 
-        href="#"
-        onClick={(e) => {
-          e.preventDefault()
-          setMenuOpen(!menuOpen)
-        }}
-      >
-        <i className={menuOpen ? "close icon-cancel" : "open icon-menu"}></i>
-      </a>
+      <div style={{ position: 'absolute', right: '30px', top: '30px', zIndex: 9911, display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <a 
+          className="overlay-menu-toggle" 
+          href="#"
+          style={{ position: 'relative', right: 'auto', top: 'auto' }}
+          onClick={(e) => {
+            e.preventDefault()
+            setMenuOpen(!menuOpen)
+          }}
+        >
+          <i className={menuOpen ? "close icon-cancel" : "open icon-menu"}></i>
+        </a>
+        <LanguageSwitcher />
+      </div>
 
       <div id="Top_bar">
         <div className="container">
