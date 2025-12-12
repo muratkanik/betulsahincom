@@ -73,6 +73,18 @@ export default function Header() {
           top: auto !important;
           margin: 0 !important;
         }
+        #Overlay.open {
+          display: block !important;
+        }
+        #Overlay .close {
+          display: none;
+        }
+        #Overlay.open .close {
+          display: block;
+        }
+        #Overlay.open .open {
+          display: none;
+        }
       `}</style>
 
       <div id="Top_bar">
