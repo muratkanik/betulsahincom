@@ -19,8 +19,6 @@ export default function LanguageSwitcher() {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          width: 30px;
-          height: 30px;
           background: rgba(0, 0, 0, 0.3);
           backdrop-filter: blur(10px);
           border: none;
@@ -31,8 +29,8 @@ export default function LanguageSwitcher() {
           font-size: 30px;
           font-weight: normal;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          padding: 0;
-          line-height: 30px;
+          padding: 7px 2px;
+          line-height: 1em;
           box-sizing: border-box;
           vertical-align: middle;
         }
@@ -46,10 +44,11 @@ export default function LanguageSwitcher() {
         }
         
         .language-switcher-link img {
-          width: 24px;
-          height: 24px;
+          width: 1em;
+          height: 1em;
           object-fit: contain;
           display: block;
+          vertical-align: middle;
         }
         
         .language-switcher-link span {

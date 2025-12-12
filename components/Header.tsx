@@ -52,11 +52,11 @@ export default function Header() {
         </nav>
       </div>
 
-      <div style={{ position: 'absolute', right: '30px', top: '30px', zIndex: 9911, display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <div style={{ position: 'absolute', right: '30px', top: '32px', zIndex: 9911, display: 'flex', alignItems: 'center', gap: '10px' }}>
         <a 
           className="overlay-menu-toggle" 
           href="#"
-          style={{ position: 'relative', right: 'auto', top: 'auto', margin: 0, padding: 0 }}
+          style={{ position: 'relative', right: 'auto', top: 'auto' }}
           onClick={(e) => {
             e.preventDefault()
             setMenuOpen(!menuOpen)
