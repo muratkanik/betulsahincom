@@ -11,17 +11,21 @@ export default function LanguageSwitcher() {
     <div className="language-switcher">
       <style jsx>{`
         .language-switcher {
-          position: fixed;
-          top: 10px;
-          right: 30px;
-          z-index: 9999;
+          position: absolute;
+          right: 70px;
+          top: 30px;
+          z-index: 9911;
           display: inline-block;
+        }
+        
+        .header-overlay.sticky-header .language-switcher {
+          position: fixed;
         }
         
         @media (max-width: 768px) {
           .language-switcher {
-            top: 10px;
-            right: 60px;
+            right: 70px;
+            top: 30px;
           }
         }
         
@@ -29,41 +33,37 @@ export default function LanguageSwitcher() {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 8px;
-          padding: 10px 16px;
-          background: rgba(255, 255, 255, 0.95);
+          width: 30px;
+          height: 30px;
+          background: rgba(255, 255, 255, 0.5);
           backdrop-filter: blur(10px);
           border: none;
-          border-radius: 16px;
+          border-radius: 0;
           color: #333;
           text-decoration: none;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          font-size: 14px;
+          transition: all 0.3s;
+          font-size: 12px;
           font-weight: 600;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
-          min-width: 70px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          padding: 0;
         }
         
         .language-switcher-link:hover {
-          background: rgba(255, 255, 255, 1);
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
+          background: rgba(255, 255, 255, 0.7);
         }
         
         .language-switcher-link:active {
-          transform: translateY(0);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+          background: rgba(255, 255, 255, 0.6);
         }
         
         .language-switcher-link img {
-          width: 22px;
-          height: 22px;
+          width: 20px;
+          height: 20px;
           object-fit: contain;
-          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
         }
         
         .language-switcher-link span {
-          letter-spacing: 0.5px;
+          display: none;
         }
       `}</style>
       
@@ -74,7 +74,6 @@ export default function LanguageSwitcher() {
           aria-label="Switch to Turkish"
         >
           <img src="/web/content/webdesign/res/turkce.png" alt="Türkçe" />
-          <span>TR</span>
         </Link>
       ) : (
         <Link 
@@ -83,7 +82,6 @@ export default function LanguageSwitcher() {
           aria-label="Switch to English"
         >
           <img src="/web/content/webdesign/res/ingilizce.png" alt="English" />
-          <span>EN</span>
         </Link>
       )}
     </div>
