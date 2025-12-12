@@ -30,7 +30,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const isAdmin = data.tc === '34322246006'
+    // Yönetici TC'leri
+    const adminTCs = ['34322246006', '25006089088']
+    const isAdmin = adminTCs.includes(data.tc)
 
     const response = NextResponse.json({
       success: true,

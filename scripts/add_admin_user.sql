@@ -24,3 +24,5 @@ ON CONFLICT (tc) DO UPDATE SET
   klinikgiris = EXCLUDED.klinikgiris,
   baslama = EXCLUDED.baslama,
   bitis = EXCLUDED.bitis;
+
+-- Not: Bu kullanıcı login API'de yönetici olarak tanınacak (TC: 25006089088)

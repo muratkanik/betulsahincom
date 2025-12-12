@@ -10,6 +10,11 @@ export default function AkademiPage() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [showForgotPassword, setShowForgotPassword] = useState(false)
+  const [forgotPasswordTC, setForgotPasswordTC] = useState('')
+  const [forgotPasswordLoading, setForgotPasswordLoading] = useState(false)
+  const [forgotPasswordError, setForgotPasswordError] = useState('')
+  const [forgotPasswordSuccess, setForgotPasswordSuccess] = useState(false)
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -39,6 +44,40 @@ export default function AkademiPage() {
       setError('Bir hata oluştu. Lütfen tekrar deneyiniz.')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setForgotPasswordLoading(true)
+    setForgotPasswordError('')
+    setForgotPasswordSuccess(false)
+
+    try {
+      const response = await fetch('/api/akademi/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ tc: forgotPasswordTC }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok && data.success) {
+        setForgotPasswordSuccess(true)
+        setForgotPasswordTC('')
+        setTimeout(() => {
+          setShowForgotPassword(false)
+          setForgotPasswordSuccess(false)
+        }, 3000)
+      } else {
+        setForgotPasswordError(data.message || 'Bir hata oluştu. Lütfen tekrar deneyiniz.')
+      }
+    } catch (error) {
+      setForgotPasswordError('Bir hata oluştu. Lütfen tekrar deneyiniz.')
+    } finally {
+      setForgotPasswordLoading(false)
     }
   }
 
@@ -122,10 +161,17 @@ export default function AkademiPage() {
                           </button>
                           <a 
                             href="/akademi-kayit" 
-                            style={{padding: '10px 20px', display: 'inline-block', textDecoration: 'none', border: '1px solid #ccc', borderRadius: '4px'}}
+                            style={{padding: '10px 20px', display: 'inline-block', textDecoration: 'none', border: '1px solid #ccc', borderRadius: '4px', marginRight: '10px'}}
                           >
                             Kayıt Formu
                           </a>
+                          <button
+                            type="button"
+                            onClick={() => setShowForgotPassword(true)}
+                            style={{padding: '10px 20px', background: 'transparent', border: '1px solid #ccc', borderRadius: '4px', cursor: 'pointer', color: '#666'}}
+                          >
+                            Şifremi Unuttum
+                          </button>
                           {error && (
                             <p style={{color: 'red', marginTop: '10px'}}>{error}</p>
                           )}
@@ -152,6 +198,123 @@ export default function AkademiPage() {
           </div>
         </div>
       </div>
+      
+      {/* Şifremi Unuttum Modal */}
+      {showForgotPassword && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000
+          }}
+          onClick={() => {
+            if (!forgotPasswordLoading) {
+              setShowForgotPassword(false)
+              setForgotPasswordError('')
+              setForgotPasswordSuccess(false)
+            }
+          }}
+        >
+          <div 
+            style={{
+              backgroundColor: 'white',
+              padding: '30px',
+              borderRadius: '8px',
+              maxWidth: '500px',
+              width: '90%',
+              position: 'relative'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => {
+                setShowForgotPassword(false)
+                setForgotPasswordError('')
+                setForgotPasswordSuccess(false)
+              }}
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                background: 'none',
+                border: 'none',
+                fontSize: '24px',
+                cursor: 'pointer',
+                color: '#666'
+              }}
+            >
+              ×
+            </button>
+            
+            <h3 style={{marginBottom: '20px'}}>Şifremi Unuttum</h3>
+            
+            {forgotPasswordSuccess ? (
+              <div style={{color: 'green', marginBottom: '20px'}}>
+                <p>Yeni şifreniz e-posta adresinize gönderilmiştir. Lütfen e-posta kutunuzu kontrol ediniz.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleForgotPassword}>
+                <p style={{marginBottom: '20px', color: '#666'}}>
+                  TC Kimlik Numaranızı giriniz. Yeni şifreniz kayıtlı e-posta adresinize gönderilecektir.
+                </p>
+                <input
+                  type="text"
+                  value={forgotPasswordTC}
+                  onChange={(e) => setForgotPasswordTC(e.target.value)}
+                  placeholder="TC Kimlik No"
+                  required
+                  style={{width: '100%', padding: '10px', marginBottom: '20px', boxSizing: 'border-box'}}
+                />
+                {forgotPasswordError && (
+                  <p style={{color: 'red', marginBottom: '10px'}}>{forgotPasswordError}</p>
+                )}
+                <div style={{display: 'flex', gap: '10px'}}>
+                  <button
+                    type="submit"
+                    disabled={forgotPasswordLoading}
+                    style={{
+                      padding: '10px 20px',
+                      background: '#20146b',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: forgotPasswordLoading ? 'not-allowed' : 'pointer',
+                      flex: 1
+                    }}
+                  >
+                    {forgotPasswordLoading ? 'Gönderiliyor...' : 'Gönder'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowForgotPassword(false)
+                      setForgotPasswordError('')
+                      setForgotPasswordSuccess(false)
+                    }}
+                    style={{
+                      padding: '10px 20px',
+                      background: '#ccc',
+                      color: 'black',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    İptal
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
       
       <Footer />
     </div>
