@@ -30,8 +30,6 @@ export default function LanguageSwitcher() {
           vertical-align: middle !important;
           margin: 0 !important;
           width: auto !important;
-          min-height: 30px !important;
-          height: 30px !important;
         }
         
         .language-switcher-link:hover {
