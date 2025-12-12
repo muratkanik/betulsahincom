@@ -1,5 +1,7 @@
 'use client'
 
+import YouTubeFeed from '@/components/YouTubeFeed'
+
 export default function TestimonialsSection() {
   return (
     <>
@@ -49,33 +51,7 @@ export default function TestimonialsSection() {
         </div>
       </div>
 
-      <div className="section sections_style_5">
-        <div className="section_wrapper clearfix">
-          <div className="items_group clearfix">
-            <div className="column_attr align_center">
-              <h3><strong>YouTube</strong> Sayfamız</h3>
-            </div>
-
-            <div className="column one column_zoom_box">
-              <div className="zoom_box">
-                <a target="_blank" href="https://www.youtube.com/@dr.betulsahin">
-                  <div className="photo">
-                    <img className="scale-with-grid" src="/web/content/webdesign/res/ortabanner2.jpg" alt="" />
-                  </div>
-                  <div className="desc" style={{ backgroundColor: 'rgba(255, 106, 0, 0.6)' }}>
-                    <div className="desc_wrap" style={{ paddingTop: '10px' }}>
-                      <div className="desc_img">
-                        <img className="scale-with-grid" src="/web/content/webdesign/res/manset_arkaplan_icon.png" alt="" />
-                      </div>
-                      <div className="desc_txt">Sayfamızı Ziyaret Etmek İçin Tıklayın</div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <YouTubeFeed />
     </>
   )
 }
