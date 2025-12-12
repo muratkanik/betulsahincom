@@ -24,7 +24,7 @@ export default function LanguageSwitcher() {
           font-size: 30px !important;
           font-weight: normal !important;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          padding: 7px 2.4px !important;
+          padding: 7px 4px !important;
           line-height: 1em !important;
           box-sizing: border-box !important;
           vertical-align: middle !important;
@@ -42,9 +42,9 @@ export default function LanguageSwitcher() {
         }
         
         .language-switcher-link img {
-          width: 1em !important;
-          height: 1em !important;
-          object-fit: cover !important;
+          width: 0.85em !important;
+          height: 0.85em !important;
+          object-fit: contain !important;
           display: block !important;
           vertical-align: middle !important;
           margin: 0 !important;
